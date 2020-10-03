@@ -1,0 +1,16 @@
+{
+  "config_local": {
+    "host": "127.0.0.1",
+    "user": "root",
+    "password": "7v8$016qqjn^dda4",
+    "database": "express_hellow",
+    "port": 3306
+  }, 
+  "config_launch": {
+    "host": "",
+    "user": "",
+    "password": "",
+    "database": "",
+    "port": 3306
+  }
+}
