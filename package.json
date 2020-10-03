@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "md5": "^2.3.0",
     "moment": "^2.29.0",
     "mysql": "^2.18.1"
   }
