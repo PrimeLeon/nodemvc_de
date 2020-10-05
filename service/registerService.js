@@ -1,6 +1,5 @@
 const userDao = require('../dao/userDao.js');
 const md5 = require('md5');
-const async = require('../study/async.js');
 
 /**
  * @brief 确认用户是否存在
