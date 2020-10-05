@@ -27,22 +27,19 @@ app.delete('/session', (req, res) => {
  */
 app.get('/user/:id', (req, res) => {
     //TODO 获取id用户的信息
+    let [id] = req.query;
+    
 });
-app.post('/user', (req, res) => {
+app.post('/user', async (req, res) => {
     //TODO 创建新的用户（注册
-    let username = req.query.username;
-    let password = req.query.password;
-    let result = registerService.register(username, password);
-    console.log(result);
-    if (result.data.promise != null) {
-        result.data.promise.then((res) => {
-            res.send('恭喜你注册成功');
-        }).catch((err) => {
-            console.log(err);
-        })
-    } else {
-        res.send(result.state);
-    }
+    let [username, password] = req.query;
+    let registerPromise = registerService.register(username, password);
+    registerPromise.then((result) => {
+        res.send(result);
+    }, (err) => {
+        res.send(err);
+    })
+
 });
 app.put('/user/:id', (req, res) => {
     //TODO 更新用户id用户的信息

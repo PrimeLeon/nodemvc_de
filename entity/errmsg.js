@@ -10,5 +10,3 @@ class Errmsg{
 module.exports = {
     Errmsg
 }
-
-let emsg = new Errmsg();

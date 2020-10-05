@@ -1,5 +1,6 @@
 const userDao = require('../dao/userDao.js');
 const md5 = require('md5');
+const async = require('../study/async.js');
 
 /**
  * @brief 确认用户是否存在
@@ -8,16 +9,9 @@ const md5 = require('md5');
  * @example [{key:value,key:value...},....]
  */
 const isUsernameExisted = async (username) => {
-    //FIXME: Promise在resolve()中无法处理[]空数组
-    let rowDataPacket = (await userDao.getUserByUsername(username)).data;
-    console.log(rowDataPacket);
-    
-    return rowDataPacket ? rowDataPacket : [];
+    let resultPak = await userDao.getUserByUsername(username);
+    return resultPak;
 }
-
-
-let res = isUsernameExisted('PrimeLeon');
-
 
 /**
  * @brief 注册用户服务
@@ -29,23 +23,21 @@ let res = isUsernameExisted('PrimeLeon');
             errcode: 'u000',
             errmsg: 'none'
         }, 
-        data: {
-            promise: userDao.addUser(username, md5password)
-        }
+        promise: await userDao.addUser(username, md5password)
     }
  */
-const register = (username, password) => {
+const register = async (username, password) => {
     let md5password = md5(password);
-    let hasuser = isUsernameExisted(username);
-    console.log(hasuser);
-    if (!hasuser) {
+    let hasuser = await isUsernameExisted(username);
+
+    //FIXME: hasuser是一个[]空数组为什么会判定为true
+    //FIXED: 虽然改了判定但是还是不明白
+    if (!hasuser.length > 0) {
+        await userDao.addUser(username, md5password);
         return {
             state: {
                 errcode: 'u000',
                 errmsg: 'none'
-            },
-            data: {
-                promise: userDao.addUser(username, md5password)
             }
         };
     } else {
@@ -53,9 +45,6 @@ const register = (username, password) => {
             state: {
                 errcode: 'u001',
                 errmsg: 'username was existed',
-            },
-            data: {
-                promise: null
             }
         };
     }
