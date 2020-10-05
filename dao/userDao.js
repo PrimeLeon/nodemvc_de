@@ -2,7 +2,7 @@ const sqlutil = require('../util/sqlutils/sqlutil.js');
 const moment = require('moment');
 
 /**
- * * DAO层统一返回Promise对象，由Controll层决定后续操作
+ * * DAO层统一返回Promise对象，由Service层决定操作顺序
  */
 
 /**
@@ -13,59 +13,77 @@ const moment = require('moment');
  * @example regis_date = '2222-12-12 22:22:22'
  * @return {Promise} 返回一个Promise对象
  */
-function addUser(username, password) {
+const addUser = async (username, password) => {
     const vip_expire_date = "2000-01-01 00:00:00";
     let regis_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     // 默认nickname为username
     let nickname = username;
     let sql = 'INSERT INTO user (username,nickname,password,regis_date,vip_expire_date) VALUES (?,?,?,?,?)';
     let sqlarr = [username, nickname, password, regis_date, vip_expire_date];
-    return new Promise((resolve, reject) => {
-        sqlutil.sqlconnection(sql, sqlarr, (err, result) => {
-            if (err) {
-                // console.log(err);
-                reject(err);
-            }
-            // console.log(result);
-            resolve(result);
-        });
-    });
+    let resultPak = sqlutil.sqlconnection(sql, sqlarr);
+    return resultPak;
 }
+
+
 /**
  * @brief 获取所有用户
  * @return {Promise} 返回一个Promise对象
  */
-function getAllUsers() {
+const getAllUsers = async () => {
     let sql = `SELECT * FROM user`;
     let sqlarr = [];
-    return new Promise((resolve, reject) => {
-        sqlutil.sqlconnection(sql, sqlarr, (err, result) => {
-            if (err) {
-                // console.log(err);
-                reject(err)
-            }
-            resolve(result);
-        });
-    });
+    let resultPak = await sqlutil.sqlconnection(sql,sqlarr);
+    return resultPak;
 }
 
 /**
- * @param {number} id 根据id查询用户，id为number类型
+ * @brief 根据用户id查询用户
+ * @param {number} id 用户id
  * @return {Promise} 返回一个Promise对象
  */
-function getUserById(id) {
+const getUserById = async (id) => {
     let sql = 'SELECT * FROM user WHERE id = ?';
     let sqlarr = [id];
-    return new Promise((resolve, reject)=>{
-        sqlutil.sqlconnection(sql, sqlarr, (err, result) => {
-            if (err) {
-                // console.log(err);
-                reject(err);
-            }
-            resolve(result);
-        });
-    });
+    let resultPak = sqlutil.sqlconnection(sql, sqlarr);
+    return resultPak;
 }
+
+/**
+ * @brief 根据用户名查询用户
+ * @param {string} username 用户的用户名
+ * @return {Promise} 返回一个Promise对象
+ */
+const getUserByUsername = async (username) => {
+    let sql = 'SELECT * FROM user WHERE username = ?';
+    let sqlarr = [username];
+    let resultPak = sqlutil.sqlconnection(sql, sqlarr);
+    return resultPak;
+}
+
+/**
+ * @brief 根据邮箱查询用户
+ * @param {string} email 用户的用户名
+ * @return {Promise} 返回一个Promise对象
+ */
+const getUserByEmail = async (email) => {
+    let sql = 'SELECT * FROM user WHERE username = ?';
+    let sqlarr = [email];
+    let resultPak = sqlutil.sqlconnection(sql, sqlarr);
+    return resultPak;
+}
+
+/**
+ * @brief 根据手机号查询用户
+ * @param {string} phone 用户的用户名
+ * @return {Promise} 返回一个Promise对象
+ */
+const getUserByPhone = async (phone) => {
+    let sql = 'SELECT * FROM user WHERE username = ?';
+    let sqlarr = [phone];
+    let resultPak = sqlutil.sqlconnection(sql, sqlarr);
+    return resultPak;
+}
+
 /**
  * @brief 更新用户个人信息
  * @param {string} nickname 用户要更新的昵称
@@ -74,19 +92,11 @@ function getUserById(id) {
  * @param {number} id 待更新的用户id
  * @return {Promise} 返回一个Promise对象
  */
-function updateUserById(nickname, phone, email, id) {
+const updateUserById = async (nickname, phone, email, id) => {
     let sql = `UPDATE user SET nickname = ?, phone = ?, email = ? WHERE id = ?`;
     let sqlarr = [nickname, phone, email, id];
-    return new Promise((resolve, reject) => {
-        sqlutil.sqlconnection(sql, sqlarr, (err, result) => {
-            if (err) {
-                // console.log(err);
-                reject(err);
-            }
-            // console.log(result);
-            resolve(result);
-        });
-    });
+    let resultPak = sqlutil.sqlconnection(sql, sqlarr);
+    return resultPak;
 }
 
 /**
@@ -95,18 +105,11 @@ function updateUserById(nickname, phone, email, id) {
  * @param {number} id 待更新的用户id
  * @return {Promise} 返回一个Promise对象
  */
-function updateUserNicknameById(nickname, id) {
+const updateUserNicknameById = async (nickname, id) => {
     let sql = `UPDATE user SET nickname = ? WHERE id = ?`;
     let sqlarr = [nickname, id];
-    return new Promise((resolve,reject)=>{
-        sqlutil.sqlconnection(sql, sqlarr, (err, result) => {
-            if (err) {
-                // console.log(err);
-                reject(err);
-            }
-            resolve(result);
-        });
-    });
+    let resultPak = sqlutil.sqlconnection(sql, sqlarr);
+    return resultPak;
 }
 
 /**
@@ -115,18 +118,11 @@ function updateUserNicknameById(nickname, id) {
  * @param {number} id 待更新的用户id
  * @return {Promise} 返回一个Promise
  */
-function updateUserPhoneById(phone, id){
+const updateUserPhoneById = async (phone, id) => {
     let sql = `UPDATE user SET phone = ? WHERE id = ?`;
     let sqlarr = [phone, id];
-    return new Promise((resolve,reject)=>{
-        sqlutil.sqlconnection(sql, sqlarr, (err, result) => {
-            if (err) {
-                // console.log(err);
-                reject(err);
-            }
-            resolve(result);
-        });
-    });
+    let resultPak = sqlutil.sqlconnection(sql, sqlarr);
+    return resultPak;
 }
 
 /**
@@ -135,18 +131,11 @@ function updateUserPhoneById(phone, id){
  * @param {number} id 待更新的用户id
  * @return {Promise} 返回一个Promise
  */
-function updateUserEmailById(email, id){
+const updateUserEmailById = async (email, id) => {
     let sql = `UPDATE user SET email = ? WHERE id = ?`;
     let sqlarr = [email, id];
-    return new Promise((resolve,reject)=>{
-        sqlutil.sqlconnection(sql, sqlarr, (err, result) => {
-            if (err) {
-                // console.log(err);
-                reject(err);
-            }
-            resolve(result);
-        });
-    });
+    let resultPak = sqlutil.sqlconnection(sql, sqlarr);
+    return resultPak;
 }
 
 /**
@@ -155,37 +144,24 @@ function updateUserEmailById(email, id){
  * @param {number} id 待更新的用户id
  * @return {Promise} 返回一个Promise
  */
-function updateUserIsActivateById(is_activate, id){
+const updateUserIsActivateById = async (is_activate, id) => {
     let sql = `UPDATE user SET is_activate = ? WHERE id = ?`;
     let sqlarr = [is_activate, id];
-    return new Promise((resolve,reject)=>{
-        sqlutil.sqlconnection(sql, sqlarr, (err, result) => {
-            if (err) {
-                // console.log(err);
-                reject(err);
-            }
-            resolve(result);
-        });
-    });
+    let resultPak = sqlutil.sqlconnection(sql, sqlarr);
+    return resultPak;
 }
 
 /**
  * @brief 激活/停用 会员
  * @param {number} is_vip 1为激活，0为未激活
  * @param {number} id 待更新的用户id
+ * @return {Promise} 返回一个Promise
  */
-function updateUserIsVipById(is_vip, id){
+const updateUserIsVipById = async (is_vip, id) => {
     let sql = `UPDATE user SET is_vip = ? WHERE id = ?`;
     let sqlarr = [is_vip, id];
-    return new Promise((resolve,reject)=>{
-        sqlutil.sqlconnection(sql, sqlarr, (err, result) => {
-            if (err) {
-                // console.log(err);
-                reject(err);
-            }
-            resolve(result);
-        });
-    });
+    let resultPak = sqlutil.sqlconnection(sql, sqlarr);
+    return resultPak;
 }
 
 
@@ -193,6 +169,9 @@ module.exports = {
     addUser,
     getAllUsers,
     getUserById,
+    getUserByUsername,
+    getUserByEmail,
+    getUserByPhone,
     updateUserById,
     updateUserNicknameById,
     updateUserPhoneById,

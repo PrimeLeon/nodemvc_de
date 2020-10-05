@@ -7,7 +7,6 @@ class User {
     #is_activate;
     #coin;
     #exp;
-
     /**
      * @obj {jsonstr} 使用一个json字符串对user进行初始化
      */
