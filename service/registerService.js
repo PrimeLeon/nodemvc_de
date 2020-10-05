@@ -19,11 +19,11 @@ const isUsernameExisted = async (username) => {
  * @return {object} 返回一个消息对象
  * @example {
         state: {
-            errcode: 'u000',
+            errcode: 'u-r000',
             errmsg: 'none'
-        }, 
-        promise: await userDao.addUser(username, md5password)
-    }
+        },
+        data: {}
+    };
  */
 const register = async (username, password) => {
     let md5password = md5(password);
@@ -35,16 +35,18 @@ const register = async (username, password) => {
         await userDao.addUser(username, md5password);
         return {
             state: {
-                errcode: 'u000',
+                errcode: 'u-r000',
                 errmsg: 'none'
-            }
+            },
+            data: {}
         };
     } else {
         return {
             state: {
-                errcode: 'u001',
+                errcode: 'u-r001',
                 errmsg: 'username was existed',
-            }
+            },
+            data: {}
         };
     }
 }

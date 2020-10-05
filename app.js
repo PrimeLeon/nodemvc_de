@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jsonWebToken = require("jsonwebtoken");
 
+const getUserInfoService = require('./service/getUserInfoService.js');
 const registerService = require('./service/registerService.js');
 
 const app = express();
@@ -27,12 +28,23 @@ app.delete('/session', (req, res) => {
  */
 app.get('/user/:id', (req, res) => {
     //TODO 获取id用户的信息
-    let [id] = req.query;
-    
+    let {
+        id
+    } = req.params;
+    console.log(req);
+    let getUserInfoPromise = getUserInfoService.getUserinfoInfo(id);
+    getUserInfoPromise.then((result) => {
+        res.send(result);
+    }, (err) => {
+        res.send(err);
+    })
 });
 app.post('/user', async (req, res) => {
     //TODO 创建新的用户（注册
-    let [username, password] = req.query;
+    let {
+        username,
+        password
+    } = req.query;
     let registerPromise = registerService.register(username, password);
     registerPromise.then((result) => {
         res.send(result);
