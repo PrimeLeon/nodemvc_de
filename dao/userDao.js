@@ -24,7 +24,6 @@ const addUser = async (username, password) => {
     return resultPak;
 }
 
-
 /**
  * @brief 获取所有用户
  * @return {Promise} 返回一个Promise对象
