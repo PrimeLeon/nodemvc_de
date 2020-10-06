@@ -53,6 +53,9 @@ app.post('/user', async (req, res) => {
     })
 
 });
+/**
+ * 
+ */
 app.put('/user/:id', (req, res) => {
     //TODO 更新用户id用户的信息
 });
