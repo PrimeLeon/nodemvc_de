@@ -1,26 +1,21 @@
 const userDao = require('../dao/userDao.js');
 
 /**
+ * Entity
+ */
+const Msg = require('../entity/Msg.js');
+
+/**
  * @brief 获取用户信息
  * @param {number} id 用户id
- * @return {object} 返回消息对象
- * @example {
-        state: {
-            errcode: 'u-r000',
-            errmsg: 'none'
-        },
-        data: {}
-    };
+ * @return {Msg} 返回消息对象
  */
 const getUserinfoInfo = async (id) => {
     let resultPak = await userDao.getUserById(id);
-    return {
-        state: {
-            errcode: 'u-gui000',
-            errmsg: 'none'
-        },
-        data: resultPak
-    };
+    return new Msg({
+        errcode: 'u-gui000',
+        errmsg: 'none'
+    }, resultPak);
 }
 
 module.exports = {
