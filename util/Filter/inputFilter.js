@@ -1,4 +1,5 @@
 const regex_isnumletterOnly = new RegExp('[^a-z0-9A-Z_]');
+const regex_isnumOnly = new RegExp('[^0-9_]');
 // TODO: 手机正则
 const regex_isphone = new RegExp('');
 
@@ -6,10 +7,21 @@ const numletterFilter = {
     regex_isnumletterOnly,
     isLegal(string) {
         let is = regex_isnumletterOnly.test(string);
-        return is;
+        return !is;
     },
     excu(string) {
         return string.replace(regex_isnumletterOnly, '');
+    }
+}
+
+const numFilter = {
+    regex_isnumOnly,
+    isLegal(string) {
+        let is = regex_isnumOnly.test(string);
+        return !is;
+    },
+    excu(string) {
+        return string.replace(regex_isphone, '');
     }
 }
 
@@ -17,7 +29,7 @@ const phoneFilter = {
     regex_isphone,
     isLegal(string) {
         let is = regex_isphone.test(string);
-        return is;
+        return !is;
     },
     excu(string) {
         return string.replace(regex_isphone, '');
@@ -37,5 +49,7 @@ const phoneFilter = {
 // testfo();
 
 module.exports = {
-    numletterFilter
+    numletterFilter,
+    numFilter,
+    phoneFilter
 }

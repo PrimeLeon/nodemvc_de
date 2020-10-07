@@ -1,6 +1,10 @@
 const express = require('express');
 
 const userController = require('./controller/userController.js');
+const jsonWebToken = require("jsonwebtoken");
+const {
+    json
+} = require('body-parser');
 /**
  * Entity
  */
@@ -15,8 +19,30 @@ app.get('/session', (req, res) => {
 app.post('/session', (req, res) => {
     let user = {
         username,
-        password
+        password,
+        token
     } = req.query;
+    let loginPromise = userController.loginController(user);
+    /**
+     * TODO: token veirify 
+     */
+    if (!user.token) {
+        let token = jsonWebToken.sign({
+            user
+        }, 'privatekey', {
+            expiresIn: 30
+        });
+        loginPromise.then((result) => {
+            
+            res.send(token);
+        }, (err) => {
+            res.send(err);
+        });
+        
+    } else {
+        let result = jsonWebToken.verify(user.token, 'privatekey');
+        res.send(result);
+    }
 });
 app.put('/session', (req, res) => {
     //TODO 更新当前会话信息
@@ -60,4 +86,4 @@ app.delete('/user/:id', (req, res) => {
     //TODO 删除用户id用户的信息
 });
 
-const server = app.listen(8088, () => {});
+const server = app.listen(8888, () => {});

@@ -22,9 +22,10 @@ const isUsernameExisted = async (username) => {
  * @return {Promise} 返回一个由Msg对象初始化的，resolved状态的Promise对象
  */
 const register = async (username, password) => {
-    let hasuser = await isUsernameExisted(username);
+    // 此处要等待异步操作完成
+    let resultPak = await isUsernameExisted(username);
     //FIXED: 虽然改了判定但是还是不明白,hasuser是一个[]空数组为什么会判定为true
-    if (!hasuser.length > 0) {
+    if (resultPak.length == 0) {
         await userDao.addUser(username, password);
         return new Msg({
             errcode: 'ser-r000',

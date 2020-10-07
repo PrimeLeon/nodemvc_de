@@ -31,7 +31,7 @@ const addUser = async (username, password) => {
 const getAllUsers = async () => {
     let sql = `SELECT * FROM user`;
     let sqlarr = [];
-    let resultPak = await sqlutil.sqlconnection(sql,sqlarr);
+    let resultPak = await sqlutil.sqlconnection(sql, sqlarr);
     return resultPak;
 }
 
@@ -55,6 +55,18 @@ const getUserById = async (id) => {
 const getUserByUsername = async (username) => {
     let sql = 'SELECT * FROM user WHERE username = ?';
     let sqlarr = [username];
+    let resultPak = sqlutil.sqlconnection(sql, sqlarr);
+    return resultPak;
+}
+
+/**
+ * @brief 根据用户名和密码查询用户是否存在
+ * @param {string} username 用户的用户名
+ * @param {string} password 用户的密码(md5)
+ */
+const getUserByUsernameAndPassword = async (username, password) => {
+    let sql = 'SELECT * FROM user WHERE username = ? and password = ?';
+    let sqlarr = [username, password];
     let resultPak = sqlutil.sqlconnection(sql, sqlarr);
     return resultPak;
 }
@@ -176,5 +188,6 @@ module.exports = {
     updateUserPhoneById,
     updateUserEmailById,
     updateUserIsActivateById,
-    updateUserIsVipById
+    updateUserIsVipById,
+    getUserByUsernameAndPassword
 }

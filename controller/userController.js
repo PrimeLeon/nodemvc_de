@@ -2,13 +2,18 @@ const md5 = require('md5');
 
 const getUserInfoService = require('../service/getUserInfoService.js');
 const registerService = require('../service/registerService.js');
-const jsonWebToken = require("jsonwebtoken");
+const loginService = require('../service/loginService.js');
 
 const inputFilter = require('../util/Filter/inputFilter.js');
 /**
  * Entity
  */
 const Msg = require('../entity/Msg.js');
+
+/**
+ * TODO: 通用检测
+ */
+const commonInputCheck = () => {};
 
 /**
  * @brief 检测非法输入
@@ -18,12 +23,12 @@ const Msg = require('../entity/Msg.js');
 const registerController = async (userObj) => {
     if (userObj.username && userObj.password) {
         if (inputFilter.numletterFilter.isLegal(userObj.username)) {
+            return registerService.register(userObj.username, md5(userObj.password));
+        } else {
             return new Msg({
                 errcode: 'com-002',
                 errmsg: 'illegal input'
             }, {});
-        } else {
-            return registerService.register(userObj.username, md5(userObj.password));
         }
     } else {
         return new Msg({
@@ -38,13 +43,13 @@ const registerController = async (userObj) => {
  */
 const getUserinfoController = async (userObj) => {
     if (userObj.id) {
-        if (inputFilter.numletterFilter.isLegal(userObj.id)) {
+        if (inputFilter.numFilter.isLegal(userObj.id)) {
+            return getUserInfoService.getUserinfoInfo(userObj.id);
+        } else {
             return new Msg({
                 errcode: 'com-002',
                 errmsg: 'illegal input'
             }, {});
-        } else {
-            return getUserInfoService.getUserinfoInfo(userObj.id);
         }
     } else {
         return new Msg({
@@ -59,11 +64,14 @@ const getUserinfoController = async (userObj) => {
  */
 const loginController = async (userObj) => {
     if (userObj.username && userObj.password) {
-        if (inputFilter.numletterFilter.isLegal(userObj.id)) {
-            // TODO:
+        if (inputFilter.numletterFilter.isLegal(username)) {
+            let md5Psd = md5(userObj.password);
+            return loginService.login(userObj.username, md5Psd);
         } else {
-            // TODO:
-
+            return new Msg({
+                errcode: 'com-002',
+                errmsg: 'illegal input'
+            }, {});
         }
     } else {
         return new Msg({
@@ -75,5 +83,6 @@ const loginController = async (userObj) => {
 
 module.exports = {
     registerController,
-    getUserinfoController
+    getUserinfoController,
+    loginController
 }
