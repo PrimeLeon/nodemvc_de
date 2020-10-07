@@ -1,9 +1,9 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const jsonWebToken = require("jsonwebtoken");
 
-const getUserInfoService = require('./service/getUserInfoService.js');
-const registerService = require('./service/registerService.js');
+const userController = require('./controller/userController.js');
+/**
+ * Entity
+ */
 
 const app = express();
 /**
@@ -13,7 +13,10 @@ app.get('/session', (req, res) => {
     //TODO 获取会话信息
 });
 app.post('/session', (req, res) => {
-    //TODO 创建新的会话（登入
+    let user = {
+        username,
+        password
+    } = req.query;
 });
 app.put('/session', (req, res) => {
     //TODO 更新当前会话信息
@@ -27,31 +30,25 @@ app.delete('/session', (req, res) => {
  * User 资源
  */
 app.get('/user/:id', (req, res) => {
-    //TODO 获取id用户的信息
-    let {
-        id
-    } = req.params;
-    console.log(req);
-    let getUserInfoPromise = getUserInfoService.getUserinfoInfo(id);
+    // 路由:id参数由params获得
+    let user = req.params;
+    let getUserInfoPromise = userController.getUserinfoController(user);
     getUserInfoPromise.then((result) => {
         res.send(result);
     }, (err) => {
         res.send(err);
     })
 });
-app.post('/user', async (req, res) => {
-    //TODO 创建新的用户（注册
-    let {
-        username,
-        password
-    } = req.query;
-    let registerPromise = registerService.register(username, password);
+
+app.post('/user', (req, res) => {
+    // post参数由query获得
+    let user = req.query;
+    let registerPromise = userController.registerController(user);
     registerPromise.then((result) => {
         res.send(result);
     }, (err) => {
         res.send(err);
-    })
-
+    });
 });
 /**
  * 

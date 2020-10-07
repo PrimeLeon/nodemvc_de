@@ -1,11 +1,13 @@
 const userDao = require('../dao/userDao.js');
-const md5 = require('md5');
 
+/**
+ * ! NEED COMMENTS HERE!!
+ */
 const isUsernameExisted = (username) => {
-    let rowDataPacket = userDao.getUserByUsername(username);
-    return rowDataPacket ?? [];
+    let resultPak = userDao.getUserByUsername(username);
+    return resultPak;
 }
 
 const login = (username, password) => {
-
+    // TODO:
 }

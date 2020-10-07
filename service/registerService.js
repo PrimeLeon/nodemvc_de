@@ -1,6 +1,4 @@
 const userDao = require('../dao/userDao.js');
-const md5 = require('md5');
-
 /**
  * Entity
  */
@@ -21,23 +19,20 @@ const isUsernameExisted = async (username) => {
  * @brief 注册用户服务
  * @param {string} username 待注册的用户名
  * @param {string} password 待注册的用户的密码
- * @return {Errmsg} 返回一个消息对象
+ * @return {Promise} 返回一个由Msg对象初始化的，resolved状态的Promise对象
  */
 const register = async (username, password) => {
-    let md5password = md5(password);
     let hasuser = await isUsernameExisted(username);
-
-    //FIXME: hasuser是一个[]空数组为什么会判定为true
-    //FIXED: 虽然改了判定但是还是不明白
+    //FIXED: 虽然改了判定但是还是不明白,hasuser是一个[]空数组为什么会判定为true
     if (!hasuser.length > 0) {
-        await userDao.addUser(username, md5password);
+        await userDao.addUser(username, password);
         return new Msg({
-            errcode: 'u-r000',
+            errcode: 'ser-r000',
             errmsg: 'none'
         }, {});
     } else {
         return new Msg({
-            errcode: 'u-r001',
+            errcode: 'ser-r001',
             errmsg: 'username was existed',
         }, {});
     }
