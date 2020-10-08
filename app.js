@@ -30,15 +30,14 @@ app.post('/session', (req, res) => {
         let token = jsonWebToken.sign({
             user
         }, 'privatekey', {
-            expiresIn: 30
+            expiresIn: 60*60
         });
         loginPromise.then((result) => {
-            
             res.send(token);
         }, (err) => {
             res.send(err);
         });
-        
+
     } else {
         let result = jsonWebToken.verify(user.token, 'privatekey');
         res.send(result);
