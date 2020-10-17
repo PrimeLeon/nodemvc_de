@@ -6,10 +6,9 @@ const sessionRouter = require('./routes/sessionRouter.js');
  */
 
 const app = express();
+app.use(express.static('./public'));
 
-app.use('./user',userRouter);
-app.use('./session',sessionRouter);
-
-
+app.use('/user',userRouter);
+app.use('/session',sessionRouter);
 
 const server = app.listen(8888, () => {});

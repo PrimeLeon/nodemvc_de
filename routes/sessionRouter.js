@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express();
-const userController = require('./controller/userController.js');
+const userController = require('../controller/userController.js');
 const jsonWebToken = require("jsonwebtoken");
 
 /**
@@ -44,4 +44,4 @@ router.delete('/session', (req, res) => {
     //TODO 销毁当前会话（登出
 });
 
-module.exports = route
+module.exports = router;

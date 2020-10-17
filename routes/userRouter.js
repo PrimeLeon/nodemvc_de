@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express();
-const userController = require('./controller/userController.js');
+const userController = require('../controller/userController.js');
 const jsonWebToken = require("jsonwebtoken");
 /**
  * User 资源
@@ -31,6 +31,8 @@ router.post('/', (req, res) => {
  */
 router.put('/:id', (req, res) => {
     //TODO 更新用户id用户的信息
+    let user = req.query;
+    console.log(user);
 });
 router.delete('/:id', (req, res) => {
     //TODO 删除用户id用户的信息
