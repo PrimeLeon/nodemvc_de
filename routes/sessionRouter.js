@@ -19,6 +19,8 @@ router.post('/session', (req, res) => {
     /**
      * TODO: token veirify 
      */
+
+     
     if (!user.token) {
         let token = jsonWebToken.sign({
             user

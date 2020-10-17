@@ -98,14 +98,16 @@ const getUserByPhone = async (phone) => {
 /**
  * @brief 更新用户个人信息
  * @param {string} nickname 用户要更新的昵称
+ * @param {string} password 用户要更新的密码
  * @param {string} phone 用户要更新的手机号
  * @param {string} email 用户要更新的email地址
  * @param {number} id 待更新的用户id
  * @return {Promise} 返回一个Promise对象
  */
-const updateUserById = async (nickname, phone, email, id) => {
-    let sql = `UPDATE user SET nickname = ?, phone = ?, email = ? WHERE id = ?`;
-    let sqlarr = [nickname, phone, email, id];
+const updateUserById = async (password, nickname, phone, email, id) => {
+    let sql = `UPDATE user SET password = ?, nickname = ?, phone = ?, email = ? WHERE id = ?`;
+    let sqlarr = [password, nickname, phone, email, id];
+    console.log(sqlarr);
     let resultPak = sqlutil.sqlconnection(sql, sqlarr);
     return resultPak;
 }
