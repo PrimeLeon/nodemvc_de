@@ -12,7 +12,7 @@ const inputFilter = require('../util/Filter/inputFilter.js');
 const Msg = require('../entity/Msg.js');
 
 /**
- * @brief 检测非法输入
+ * @brief 注册Controller
  * @param {object} userObj 注册用户参数对象
  * @return {Promise} 返回一个由Msg对象初始化的，resolved状态的Promise对象
  */
@@ -35,7 +35,9 @@ const registerController = async (userObj) => {
 }
 
 /**
- * * 根据id获取用户信息
+ * @brief 根据id获取用户信息
+ * @param {object} userObj 注册用户参数对象
+ * @return {Promise} 返回一个由Msg对象初始化的，resolved状态的Promise对象
  */
 const getUserinfoController = async (userObj) => {
     if (userObj.id) {
@@ -56,7 +58,9 @@ const getUserinfoController = async (userObj) => {
 }
 
 /**
- * * 登录功能
+ * @brief 登录
+ * @param {object} userObj 注册用户参数对象
+ * @return {Promise} 返回一个由Msg对象初始化的，resolved状态的Promise对象
  */
 const loginController = async (userObj) => {
     if (userObj.username && userObj.password) {
@@ -78,7 +82,9 @@ const loginController = async (userObj) => {
 }
 
 /**
- * * 更新用户信息
+ * @brief 根据用户id更新信息
+ * @param {object} userObj 注册用户参数对象
+ * @return {Promise} 返回一个由Msg对象初始化的，resolved状态的Promise对象
  */
 const updateController = async (userObj) => {
     let {
