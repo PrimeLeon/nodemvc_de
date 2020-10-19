@@ -1,7 +1,7 @@
 /**
  * Dependeces
  */
-const userDao = require('../dao/userDao.js');
+const UserDao = require('../dao/userDao.js');
 const Msg = require('../entity/Msg.js');
 /**
  * Entity

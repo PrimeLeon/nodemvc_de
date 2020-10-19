@@ -1,7 +1,3 @@
-/**
- * * DAO层统一返回Promise对象，由Service层决定操作顺序
- */
-
 class UserDao {
     sqlutil = require('../util/sqlutils/sqlutil.js');
     moment = require('moment');
