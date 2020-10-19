@@ -1,9 +1,13 @@
-const userDao = require('../dao/userDao.js');
+/**
+ * Dependeces
+ */
+const Msg = require('../entity/Msg.js');
+const UserDao = require('../dao/userDao.js');
+
 /**
  * Entity
  */
-const Msg = require('../entity/Msg.js');
-
+const userdao = new UserDao();
 /**
  * @brief 确认用户是否存在
  * @param {string} username 待确认是否存在的用户的用户名
@@ -11,7 +15,7 @@ const Msg = require('../entity/Msg.js');
  * @example [{key:value,key:value...},....]
  */
 const isUsernameExisted = async (username) => {
-    let resultPak = await userDao.getUserByUsername(username);
+    let resultPak = await userdao.getUserByUsername(username);
     return resultPak;
 }
 
@@ -26,7 +30,7 @@ const register = async (username, password) => {
     let resultPak = await isUsernameExisted(username);
     //FIXED: 虽然改了判定但是还是不明白,hasuser是一个[]空数组为什么会判定为true
     if (resultPak.length == 0) {
-        await userDao.addUser(username, password);
+        await userdao.addUser(username, password);
         return new Msg({
             errcode: 'ser-r000',
             errmsg: 'none'

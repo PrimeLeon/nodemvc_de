@@ -1,13 +1,17 @@
+/**
+ * Dependeces
+ */
 const userDao = require('../dao/userDao.js');
+const Msg = require('../entity/Msg.js');
 /**
  * Entity
  */
-const Msg = require('../entity/Msg.js');
+const userdao = new UserDao();
 /**
  * ! NEED COMMENTS HERE!!
  */
 const isPasswordMatchUsername = async (username, password) => {
-    let resultPak = await userDao.getUserByUsernameAndPassword(username, password);
+    let resultPak = await userdao.getUserByUsernameAndPassword(username, password);
     return resultPak;
 }
 
